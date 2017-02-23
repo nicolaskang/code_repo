@@ -1,0 +1,146 @@
+# 212 "/usr/lib/gcc/x86_64-redhat-linux/4.8.5/include/stddef.h" 3
+typedef unsigned long size_t;
+#include "crt/device_runtime.h"
+#if !defined(__CUDABE__)
+# 160 "/usr/local/cuda/bin/../targets/x86_64-linux/include/device_functions.h"
+ __device_builtin__ ___device__(extern  __no_sc__) void __syncthreads(void);
+#endif
+# 50 "sgemm_kernel.cu"
+__global__ __var_used__ extern void _Z9mysgemmNTPKfiS0_iPfiiff(const float *, int, const float *, int, float *, int, int, float, float);
+#include "common_functions.h"
+#if !defined(__CUDABE__)
+#endif
+# 50 "sgemm_kernel.cu"
+__global__ __var_used__ void _Z9mysgemmNTPKfiS0_iPfiiff(
+# 50 "sgemm_kernel.cu"
+const float *A, 
+# 50 "sgemm_kernel.cu"
+int lda, 
+# 50 "sgemm_kernel.cu"
+const float *B, 
+# 50 "sgemm_kernel.cu"
+int ldb, 
+# 50 "sgemm_kernel.cu"
+float *C, 
+# 50 "sgemm_kernel.cu"
+int ldc, 
+# 50 "sgemm_kernel.cu"
+int k, 
+# 50 "sgemm_kernel.cu"
+float alpha, 
+# 50 "sgemm_kernel.cu"
+float beta){
+# 50 "sgemm_kernel.cu"
+{
+# 51 "sgemm_kernel.cu"
+{
+# 53 "sgemm_kernel.cu"
+ float __cuda_local_var_61115_11_non_const_c[16];
+# 56 "sgemm_kernel.cu"
+ int __cuda_local_var_61118_9_non_const_mid;
+# 57 "sgemm_kernel.cu"
+ int __cuda_local_var_61119_9_non_const_m;
+# 58 "sgemm_kernel.cu"
+ int __cuda_local_var_61120_9_non_const_n;
+# 59 "sgemm_kernel.cu"
+static  __shared__  __var_used__ float __cuda_local_var_61121_35_non_const_b_s[8][16];
+# 72 "sgemm_kernel.cu"
+ int __cuda_local_var_61134_9_non_const_t;
+# 73 "sgemm_kernel.cu"
+{
+# 54 "sgemm_kernel.cu"
+ int i;
+# 54 "sgemm_kernel.cu"
+i = 0;
+# 54 "sgemm_kernel.cu"
+for (; (i < 16); i++)
+# 54 "sgemm_kernel.cu"
+{
+# 55 "sgemm_kernel.cu"
+((__cuda_local_var_61115_11_non_const_c)[i]) = (0.0F);
+# 55 "sgemm_kernel.cu"
+}
+# 55 "sgemm_kernel.cu"
+}
+# 56 "sgemm_kernel.cu"
+__cuda_local_var_61118_9_non_const_mid = ((int)(((threadIdx.y) * (blockDim.x)) + (threadIdx.x)));
+# 57 "sgemm_kernel.cu"
+__cuda_local_var_61119_9_non_const_m = ((int)(((blockIdx.x) * 128U) + ((unsigned)__cuda_local_var_61118_9_non_const_mid)));
+# 58 "sgemm_kernel.cu"
+__cuda_local_var_61120_9_non_const_n = ((int)(((blockIdx.y) * 16U) + (threadIdx.x)));
+# 58 "sgemm_kernel.cu"
+{
+# 60 "sgemm_kernel.cu"
+ int i;
+# 60 "sgemm_kernel.cu"
+i = 0;
+# 60 "sgemm_kernel.cu"
+for (; (i < k); i += 8)
+# 60 "sgemm_kernel.cu"
+{
+# 61 "sgemm_kernel.cu"
+ float __cuda_local_var_61123_8_non_const_a;
+# 62 "sgemm_kernel.cu"
+((((__cuda_local_var_61121_35_non_const_b_s)[(threadIdx.y)]))[(threadIdx.x)]) = (B[(((unsigned)__cuda_local_var_61120_9_non_const_n) + ((((unsigned)i) + (threadIdx.y)) * ((unsigned)ldb)))]);
+# 63 "sgemm_kernel.cu"
+__syncthreads();
+# 63 "sgemm_kernel.cu"
+{
+# 64 "sgemm_kernel.cu"
+ int j;
+# 64 "sgemm_kernel.cu"
+j = 0;
+# 64 "sgemm_kernel.cu"
+for (; (j < 8); j++)
+# 64 "sgemm_kernel.cu"
+{
+# 65 "sgemm_kernel.cu"
+__cuda_local_var_61123_8_non_const_a = (A[(__cuda_local_var_61119_9_non_const_m + ((i + j) * lda))]);
+# 65 "sgemm_kernel.cu"
+{
+# 66 "sgemm_kernel.cu"
+ int kk;
+# 66 "sgemm_kernel.cu"
+kk = 0;
+# 66 "sgemm_kernel.cu"
+for (; (kk < 16); kk++)
+# 66 "sgemm_kernel.cu"
+{
+# 67 "sgemm_kernel.cu"
+((__cuda_local_var_61115_11_non_const_c)[kk]) += (__cuda_local_var_61123_8_non_const_a * ((((__cuda_local_var_61121_35_non_const_b_s)[j]))[kk]));
+# 67 "sgemm_kernel.cu"
+}
+# 67 "sgemm_kernel.cu"
+}
+# 69 "sgemm_kernel.cu"
+}
+# 69 "sgemm_kernel.cu"
+}
+# 70 "sgemm_kernel.cu"
+__syncthreads();
+# 71 "sgemm_kernel.cu"
+}
+# 71 "sgemm_kernel.cu"
+}
+# 72 "sgemm_kernel.cu"
+__cuda_local_var_61134_9_non_const_t = ((int)(((((unsigned)ldc) * (blockIdx.y)) * 16U) + ((unsigned)__cuda_local_var_61119_9_non_const_m)));
+# 72 "sgemm_kernel.cu"
+{
+# 73 "sgemm_kernel.cu"
+ int i;
+# 73 "sgemm_kernel.cu"
+i = 0;
+# 73 "sgemm_kernel.cu"
+for (; (i < 16); i++)
+# 73 "sgemm_kernel.cu"
+{
+# 74 "sgemm_kernel.cu"
+(C[(__cuda_local_var_61134_9_non_const_t + (i * ldc))]) = (((C[(__cuda_local_var_61134_9_non_const_t + (i * ldc))]) * beta) + (alpha * ((__cuda_local_var_61115_11_non_const_c)[i])));
+# 75 "sgemm_kernel.cu"
+}
+# 75 "sgemm_kernel.cu"
+}
+# 76 "sgemm_kernel.cu"
+} 
+# 76 "sgemm_kernel.cu"
+}}

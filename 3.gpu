@@ -1,0 +1,740 @@
+# 23 "blackScholesAnalyticEngineStructs.cuh"
+struct payoffStruct;
+# 43 "blackScholesAnalyticEngineStructs.cuh"
+struct yieldTermStruct;
+# 52 "blackScholesAnalyticEngineStructs.cuh"
+struct blackVolStruct;
+# 59 "blackScholesAnalyticEngineStructs.cuh"
+struct blackScholesMertStruct;
+# 78 "blackScholesAnalyticEngineStructs.cuh"
+struct optionStruct;
+# 85 "blackScholesAnalyticEngineStructs.cuh"
+struct blackCalcStruct;
+# 107 "blackScholesAnalyticEngineStructs.cuh"
+struct normalDistStruct;
+# 120 "blackScholesAnalyticEngineStructs.cuh"
+struct optionInputStruct;
+# 212 "/usr/lib/gcc/x86_64-redhat-linux/4.8.5/include/stddef.h" 3
+typedef unsigned long size_t;
+#include "crt/device_runtime.h"
+# 23 "blackScholesAnalyticEngineStructs.cuh"
+struct payoffStruct {
+# 24 "blackScholesAnalyticEngineStructs.cuh"
+int type;
+# 25 "blackScholesAnalyticEngineStructs.cuh"
+float strike;};
+# 26 "blackScholesAnalyticEngineStructs.cuh"
+typedef struct payoffStruct payoffStruct;
+# 43 "blackScholesAnalyticEngineStructs.cuh"
+struct yieldTermStruct {
+# 44 "blackScholesAnalyticEngineStructs.cuh"
+float timeYearFraction;
+# 45 "blackScholesAnalyticEngineStructs.cuh"
+float forward;
+# 46 "blackScholesAnalyticEngineStructs.cuh"
+float compounding;
+# 47 "blackScholesAnalyticEngineStructs.cuh"
+float frequency;
+# 48 "blackScholesAnalyticEngineStructs.cuh"
+float intRate;};
+# 49 "blackScholesAnalyticEngineStructs.cuh"
+typedef struct yieldTermStruct yieldTermStruct;
+# 52 "blackScholesAnalyticEngineStructs.cuh"
+struct blackVolStruct {
+# 53 "blackScholesAnalyticEngineStructs.cuh"
+float timeYearFraction;
+# 54 "blackScholesAnalyticEngineStructs.cuh"
+float following;
+# 55 "blackScholesAnalyticEngineStructs.cuh"
+float volatility;};
+# 56 "blackScholesAnalyticEngineStructs.cuh"
+typedef struct blackVolStruct blackVolStruct;
+# 59 "blackScholesAnalyticEngineStructs.cuh"
+struct blackScholesMertStruct {
+# 60 "blackScholesAnalyticEngineStructs.cuh"
+float x0;
+# 61 "blackScholesAnalyticEngineStructs.cuh"
+yieldTermStruct dividendTS;
+# 62 "blackScholesAnalyticEngineStructs.cuh"
+yieldTermStruct riskFreeTS;
+# 63 "blackScholesAnalyticEngineStructs.cuh"
+blackVolStruct blackVolTS;};
+# 64 "blackScholesAnalyticEngineStructs.cuh"
+typedef struct blackScholesMertStruct blackScholesMertStruct;
+# 78 "blackScholesAnalyticEngineStructs.cuh"
+struct optionStruct {
+# 79 "blackScholesAnalyticEngineStructs.cuh"
+payoffStruct payoff;
+# 80 "blackScholesAnalyticEngineStructs.cuh"
+float yearFractionTime;
+# 81 "blackScholesAnalyticEngineStructs.cuh"
+blackScholesMertStruct pricingEngine;};
+# 82 "blackScholesAnalyticEngineStructs.cuh"
+typedef struct optionStruct optionStruct;
+# 85 "blackScholesAnalyticEngineStructs.cuh"
+struct blackCalcStruct {
+# 86 "blackScholesAnalyticEngineStructs.cuh"
+float strike;
+# 87 "blackScholesAnalyticEngineStructs.cuh"
+float forward;
+# 88 "blackScholesAnalyticEngineStructs.cuh"
+float stdDev;
+# 89 "blackScholesAnalyticEngineStructs.cuh"
+float discount;
+# 90 "blackScholesAnalyticEngineStructs.cuh"
+float variance;
+# 91 "blackScholesAnalyticEngineStructs.cuh"
+float d1;
+# 92 "blackScholesAnalyticEngineStructs.cuh"
+float d2;
+# 93 "blackScholesAnalyticEngineStructs.cuh"
+float alpha;
+# 94 "blackScholesAnalyticEngineStructs.cuh"
+float beta;
+# 95 "blackScholesAnalyticEngineStructs.cuh"
+float DalphaDd1;
+# 96 "blackScholesAnalyticEngineStructs.cuh"
+float DbetaDd2;
+# 97 "blackScholesAnalyticEngineStructs.cuh"
+float n_d1;
+# 98 "blackScholesAnalyticEngineStructs.cuh"
+float cum_d1;
+# 99 "blackScholesAnalyticEngineStructs.cuh"
+float n_d2;
+# 100 "blackScholesAnalyticEngineStructs.cuh"
+float cum_d2;
+# 101 "blackScholesAnalyticEngineStructs.cuh"
+float x;
+# 102 "blackScholesAnalyticEngineStructs.cuh"
+float DxDs;
+# 103 "blackScholesAnalyticEngineStructs.cuh"
+float DxDstrike;};
+# 104 "blackScholesAnalyticEngineStructs.cuh"
+typedef struct blackCalcStruct blackCalcStruct;
+# 107 "blackScholesAnalyticEngineStructs.cuh"
+struct normalDistStruct {
+# 108 "blackScholesAnalyticEngineStructs.cuh"
+float average;
+# 109 "blackScholesAnalyticEngineStructs.cuh"
+float sigma;
+# 110 "blackScholesAnalyticEngineStructs.cuh"
+float denominator;
+# 111 "blackScholesAnalyticEngineStructs.cuh"
+float derNormalizationFactor;
+# 112 "blackScholesAnalyticEngineStructs.cuh"
+float normalizationFactor;};
+# 113 "blackScholesAnalyticEngineStructs.cuh"
+typedef struct normalDistStruct normalDistStruct;
+# 120 "blackScholesAnalyticEngineStructs.cuh"
+struct optionInputStruct {
+# 121 "blackScholesAnalyticEngineStructs.cuh"
+int type;
+# 122 "blackScholesAnalyticEngineStructs.cuh"
+float strike;
+# 123 "blackScholesAnalyticEngineStructs.cuh"
+float spot;
+# 124 "blackScholesAnalyticEngineStructs.cuh"
+float q;
+# 125 "blackScholesAnalyticEngineStructs.cuh"
+float r;
+# 126 "blackScholesAnalyticEngineStructs.cuh"
+float t;
+# 127 "blackScholesAnalyticEngineStructs.cuh"
+float vol;
+# 128 "blackScholesAnalyticEngineStructs.cuh"
+float value;
+# 129 "blackScholesAnalyticEngineStructs.cuh"
+float tol;};
+# 130 "blackScholesAnalyticEngineStructs.cuh"
+typedef struct optionInputStruct optionInputStruct;
+#if !defined(__CUDABE__)
+# 1448 "/usr/local/cuda/bin/../targets/x86_64-linux/include/math_functions.h"
+ __device_builtin__ ___device__(extern  __no_sc__) __attribute__((__nothrow__)) double exp(double);
+#endif
+# 16 "blackScholesAnalyticEngineKernels.cu"
+___device__(extern  __no_sc__) float _Z26interestRateCompoundFactorf15yieldTermStruct(float, yieldTermStruct);
+# 23 "blackScholesAnalyticEngineKernels.cu"
+___device__(extern  __no_sc__) float _Z26interestRateDiscountFactorf15yieldTermStruct(float, yieldTermStruct);
+# 30 "blackScholesAnalyticEngineKernels.cu"
+___device__(extern  __no_sc__) float _Z19getBlackVolBlackVar14blackVolStruct(blackVolStruct);
+# 38 "blackScholesAnalyticEngineKernels.cu"
+___device__(extern  __no_sc__) float _Z26getDiscountOnDividendYieldf15yieldTermStruct(float, yieldTermStruct);
+# 46 "blackScholesAnalyticEngineKernels.cu"
+___device__(extern  __no_sc__) float _Z25getDiscountOnRiskFreeRatef15yieldTermStruct(float, yieldTermStruct);
+# 53 "blackScholesAnalyticEngineKernels.cu"
+___device__(extern  __no_sc__) float _Z10errorFunct16normalDistStructf(normalDistStruct, float);
+# 109 "blackScholesAnalyticEngineKernels.cu"
+___device__(extern  __no_sc__) float _Z13cumNormDistOp16normalDistStructf(normalDistStruct, float);
+# 118 "blackScholesAnalyticEngineKernels.cu"
+___device__(extern  __no_sc__) float _Z21gaussianFunctNormDist16normalDistStructf(normalDistStruct, float);
+# 130 "blackScholesAnalyticEngineKernels.cu"
+___device__(extern  __no_sc__) float _Z16cumNormDistDeriv16normalDistStructf(normalDistStruct, float);
+# 138 "blackScholesAnalyticEngineKernels.cu"
+___device__(extern  __no_sc__) void _Z15initCumNormDistR16normalDistStruct(normalDistStruct *);
+# 149 "blackScholesAnalyticEngineKernels.cu"
+___device__(extern  __no_sc__) void _Z17initBlackCalcVarsR15blackCalcStruct12payoffStruct(blackCalcStruct *, payoffStruct);
+# 192 "blackScholesAnalyticEngineKernels.cu"
+___device__(extern  __no_sc__) void _Z19initBlackCalculatorR15blackCalcStruct12payoffStructfff(blackCalcStruct *, payoffStruct, float, float, float);
+# 205 "blackScholesAnalyticEngineKernels.cu"
+___device__(extern  __no_sc__) float _Z12getResultVal15blackCalcStruct(blackCalcStruct);
+# 214 "blackScholesAnalyticEngineKernels.cu"
+__global__ __var_used__ extern void _Z15getOutValOptionP17optionInputStructPfi(optionInputStruct *, float *, int);
+#include "common_functions.h"
+#if !defined(__CUDABE__)
+#endif
+# 16 "blackScholesAnalyticEngineKernels.cu"
+___device__( __no_sc__) float _Z26interestRateCompoundFactorf15yieldTermStruct(
+# 16 "blackScholesAnalyticEngineKernels.cu"
+float t, 
+# 16 "blackScholesAnalyticEngineKernels.cu"
+yieldTermStruct currYieldTermStruct){
+# 16 "blackScholesAnalyticEngineKernels.cu"
+{
+# 17 "blackScholesAnalyticEngineKernels.cu"
+{
+# 17 "blackScholesAnalyticEngineKernels.cu"
+ float __T20;
+# 18 "blackScholesAnalyticEngineKernels.cu"
+return (float)((__T20 = ((currYieldTermStruct.forward) * t)) , (expf(((double)__T20))));
+# 19 "blackScholesAnalyticEngineKernels.cu"
+}
+# 19 "blackScholesAnalyticEngineKernels.cu"
+}}
+# 23 "blackScholesAnalyticEngineKernels.cu"
+___device__( __no_sc__) float _Z26interestRateDiscountFactorf15yieldTermStruct(
+# 23 "blackScholesAnalyticEngineKernels.cu"
+float t, 
+# 23 "blackScholesAnalyticEngineKernels.cu"
+yieldTermStruct currYieldTermStruct){
+# 23 "blackScholesAnalyticEngineKernels.cu"
+{
+# 24 "blackScholesAnalyticEngineKernels.cu"
+{
+# 25 "blackScholesAnalyticEngineKernels.cu"
+return (1.0F) / (_Z26interestRateCompoundFactorf15yieldTermStruct(t, currYieldTermStruct));
+# 26 "blackScholesAnalyticEngineKernels.cu"
+}
+# 26 "blackScholesAnalyticEngineKernels.cu"
+}}
+# 30 "blackScholesAnalyticEngineKernels.cu"
+___device__( __no_sc__) float _Z19getBlackVolBlackVar14blackVolStruct(
+# 30 "blackScholesAnalyticEngineKernels.cu"
+blackVolStruct volTS){
+# 30 "blackScholesAnalyticEngineKernels.cu"
+{
+# 31 "blackScholesAnalyticEngineKernels.cu"
+{
+# 32 "blackScholesAnalyticEngineKernels.cu"
+ float __cuda_local_var_42231_8_non_const_vol;
+# 32 "blackScholesAnalyticEngineKernels.cu"
+__cuda_local_var_42231_8_non_const_vol = (volTS.volatility);
+# 33 "blackScholesAnalyticEngineKernels.cu"
+return (__cuda_local_var_42231_8_non_const_vol * __cuda_local_var_42231_8_non_const_vol) * (volTS.timeYearFraction);
+# 34 "blackScholesAnalyticEngineKernels.cu"
+}
+# 34 "blackScholesAnalyticEngineKernels.cu"
+}}
+# 38 "blackScholesAnalyticEngineKernels.cu"
+___device__( __no_sc__) float _Z26getDiscountOnDividendYieldf15yieldTermStruct(
+# 38 "blackScholesAnalyticEngineKernels.cu"
+float yearFraction, 
+# 38 "blackScholesAnalyticEngineKernels.cu"
+yieldTermStruct dividendYieldTermStruct){
+# 38 "blackScholesAnalyticEngineKernels.cu"
+{
+# 39 "blackScholesAnalyticEngineKernels.cu"
+{
+# 40 "blackScholesAnalyticEngineKernels.cu"
+ float __cuda_local_var_42239_8_non_const_intDiscountFactor;
+# 40 "blackScholesAnalyticEngineKernels.cu"
+__cuda_local_var_42239_8_non_const_intDiscountFactor = (_Z26interestRateDiscountFactorf15yieldTermStruct(yearFraction, dividendYieldTermStruct));
+# 41 "blackScholesAnalyticEngineKernels.cu"
+return __cuda_local_var_42239_8_non_const_intDiscountFactor;
+# 42 "blackScholesAnalyticEngineKernels.cu"
+}
+# 42 "blackScholesAnalyticEngineKernels.cu"
+}}
+# 46 "blackScholesAnalyticEngineKernels.cu"
+___device__( __no_sc__) float _Z25getDiscountOnRiskFreeRatef15yieldTermStruct(
+# 46 "blackScholesAnalyticEngineKernels.cu"
+float yearFraction, 
+# 46 "blackScholesAnalyticEngineKernels.cu"
+yieldTermStruct riskFreeRateYieldTermStruct){
+# 46 "blackScholesAnalyticEngineKernels.cu"
+{
+# 47 "blackScholesAnalyticEngineKernels.cu"
+{
+# 48 "blackScholesAnalyticEngineKernels.cu"
+return _Z26interestRateDiscountFactorf15yieldTermStruct(yearFraction, riskFreeRateYieldTermStruct);
+# 49 "blackScholesAnalyticEngineKernels.cu"
+}
+# 49 "blackScholesAnalyticEngineKernels.cu"
+}}
+# 53 "blackScholesAnalyticEngineKernels.cu"
+___device__( __no_sc__) float _Z10errorFunct16normalDistStructf(
+# 53 "blackScholesAnalyticEngineKernels.cu"
+normalDistStruct normDist, 
+# 53 "blackScholesAnalyticEngineKernels.cu"
+float x){
+# 53 "blackScholesAnalyticEngineKernels.cu"
+{
+# 54 "blackScholesAnalyticEngineKernels.cu"
+{
+# 55 "blackScholesAnalyticEngineKernels.cu"
+ float __cuda_local_var_42254_8_non_const_R;
+# 55 "blackScholesAnalyticEngineKernels.cu"
+ float __cuda_local_var_42254_10_non_const_S;
+# 55 "blackScholesAnalyticEngineKernels.cu"
+ float __cuda_local_var_42254_12_non_const_P;
+# 55 "blackScholesAnalyticEngineKernels.cu"
+ float __cuda_local_var_42254_14_non_const_Q;
+# 55 "blackScholesAnalyticEngineKernels.cu"
+ float __cuda_local_var_42254_16_non_const_s;
+# 55 "blackScholesAnalyticEngineKernels.cu"
+ float __cuda_local_var_42254_18_non_const_y;
+# 55 "blackScholesAnalyticEngineKernels.cu"
+ float __cuda_local_var_42254_20_non_const_z;
+# 55 "blackScholesAnalyticEngineKernels.cu"
+ float __cuda_local_var_42254_22_non_const_r;
+# 55 "blackScholesAnalyticEngineKernels.cu"
+ float __cuda_local_var_42254_25_non_const_ax;
+# 57 "blackScholesAnalyticEngineKernels.cu"
+__cuda_local_var_42254_25_non_const_ax = ((float)(fabsf(((double)x))));
+# 59 "blackScholesAnalyticEngineKernels.cu"
+if (((double)__cuda_local_var_42254_25_non_const_ax) < (0.84375))
+# 60 "blackScholesAnalyticEngineKernels.cu"
+{
+# 61 "blackScholesAnalyticEngineKernels.cu"
+if (((double)__cuda_local_var_42254_25_non_const_ax) < (3.725290298400000007e-09))
+# 62 "blackScholesAnalyticEngineKernels.cu"
+{
+# 63 "blackScholesAnalyticEngineKernels.cu"
+if (((double)__cuda_local_var_42254_25_non_const_ax) < (0.0))
+# 63 "blackScholesAnalyticEngineKernels.cu"
+{
+# 64 "blackScholesAnalyticEngineKernels.cu"
+return (float)((0.125) * (((8.0) * ((double)x)) + ((1.027033336764100691) * ((double)x))));
+# 64 "blackScholesAnalyticEngineKernels.cu"
+}
+# 65 "blackScholesAnalyticEngineKernels.cu"
+return (float)(((double)x) + ((0.1283791670955125863) * ((double)x)));
+# 66 "blackScholesAnalyticEngineKernels.cu"
+}
+# 67 "blackScholesAnalyticEngineKernels.cu"
+__cuda_local_var_42254_20_non_const_z = (x * x);
+# 68 "blackScholesAnalyticEngineKernels.cu"
+__cuda_local_var_42254_22_non_const_r = ((float)((0.1283791670955125586) + (((double)__cuda_local_var_42254_20_non_const_z) * ((-0.3250421072470014994) + (((double)__cuda_local_var_42254_20_non_const_z) * ((-0.02848174957559851048) + (((double)__cuda_local_var_42254_20_non_const_z) * ((-0.005770270296489441592) + (((double)__cuda_local_var_42254_20_non_const_z) * (-2.376301665665016261e-05))))))))));
+# 69 "blackScholesAnalyticEngineKernels.cu"
+__cuda_local_var_42254_16_non_const_s = ((float)((1.0) + (((double)__cuda_local_var_42254_20_non_const_z) * ((0.3979172239591553528) + (((double)__cuda_local_var_42254_20_non_const_z) * ((0.06502224998876729445) + (((double)__cuda_local_var_42254_20_non_const_z) * ((0.005081306281875765628) + (((double)__cuda_local_var_42254_20_non_const_z) * ((0.0001324947380043216445) + (((double)__cuda_local_var_42254_20_non_const_z) * (-3.960228278775368123e-06))))))))))));
+# 70 "blackScholesAnalyticEngineKernels.cu"
+__cuda_local_var_42254_18_non_const_y = ((float)(fdividef(((double)__cuda_local_var_42254_22_non_const_r), ((double)__cuda_local_var_42254_16_non_const_s))));
+# 71 "blackScholesAnalyticEngineKernels.cu"
+return x + (x * __cuda_local_var_42254_18_non_const_y);
+# 72 "blackScholesAnalyticEngineKernels.cu"
+}
+# 73 "blackScholesAnalyticEngineKernels.cu"
+if (((double)__cuda_local_var_42254_25_non_const_ax) < (1.25))
+# 74 "blackScholesAnalyticEngineKernels.cu"
+{
+# 75 "blackScholesAnalyticEngineKernels.cu"
+__cuda_local_var_42254_16_non_const_s = ((float)(((double)__cuda_local_var_42254_25_non_const_ax) - (1.0)));
+# 76 "blackScholesAnalyticEngineKernels.cu"
+__cuda_local_var_42254_12_non_const_P = ((float)((-0.002362118560752659441) + (((double)__cuda_local_var_42254_16_non_const_s) * ((0.4148561186837483317) + (((double)__cuda_local_var_42254_16_non_const_s) * ((-0.3722078760357013238) + (((double)__cuda_local_var_42254_16_non_const_s) * ((0.3183466199011617537) + (((double)__cuda_local_var_42254_16_non_const_s) * ((-0.1108946942823966775) + (((double)__cuda_local_var_42254_16_non_const_s) * ((0.03547830432561823594) + (((double)__cuda_local_var_42254_16_non_const_s) * (-0.002166375594868790843))))))))))))));
+# 77 "blackScholesAnalyticEngineKernels.cu"
+__cuda_local_var_42254_14_non_const_Q = ((float)((1.0) + (((double)__cuda_local_var_42254_16_non_const_s) * ((0.1064208804008442283) + (((double)__cuda_local_var_42254_16_non_const_s) * ((0.5403979177021710489) + (((double)__cuda_local_var_42254_16_non_const_s) * ((0.07182865441419626629) + (((double)__cuda_local_var_42254_16_non_const_s) * ((0.1261712198087616421) + (((double)__cuda_local_var_42254_16_non_const_s) * ((0.01363708391202905074) + (((double)__cuda_local_var_42254_16_non_const_s) * (0.01198449984679910742))))))))))))));
+# 78 "blackScholesAnalyticEngineKernels.cu"
+if (x >= (0.0F))
+# 78 "blackScholesAnalyticEngineKernels.cu"
+{
+# 78 "blackScholesAnalyticEngineKernels.cu"
+return (float)((0.8450629115104675293) + ((double)(fdividef(((double)__cuda_local_var_42254_12_non_const_P), ((double)__cuda_local_var_42254_14_non_const_Q)))));
+# 78 "blackScholesAnalyticEngineKernels.cu"
+}
+# 78 "blackScholesAnalyticEngineKernels.cu"
+else 
+# 78 "blackScholesAnalyticEngineKernels.cu"
+{
+# 78 "blackScholesAnalyticEngineKernels.cu"
+return (float)((-0.8450629115104675293) - ((double)(fdividef(((double)__cuda_local_var_42254_12_non_const_P), ((double)__cuda_local_var_42254_14_non_const_Q)))));
+# 78 "blackScholesAnalyticEngineKernels.cu"
+}
+# 79 "blackScholesAnalyticEngineKernels.cu"
+}
+# 80 "blackScholesAnalyticEngineKernels.cu"
+if (__cuda_local_var_42254_25_non_const_ax >= (6.0F))
+# 81 "blackScholesAnalyticEngineKernels.cu"
+{
+# 82 "blackScholesAnalyticEngineKernels.cu"
+if (x >= (0.0F))
+# 82 "blackScholesAnalyticEngineKernels.cu"
+{
+# 83 "blackScholesAnalyticEngineKernels.cu"
+return (1.0F);
+# 83 "blackScholesAnalyticEngineKernels.cu"
+}
+# 83 "blackScholesAnalyticEngineKernels.cu"
+else 
+# 83 "blackScholesAnalyticEngineKernels.cu"
+{
+# 85 "blackScholesAnalyticEngineKernels.cu"
+return (-1.0F);
+# 85 "blackScholesAnalyticEngineKernels.cu"
+}
+# 86 "blackScholesAnalyticEngineKernels.cu"
+}
+# 89 "blackScholesAnalyticEngineKernels.cu"
+__cuda_local_var_42254_16_non_const_s = ((float)((1.0) / ((double)(__cuda_local_var_42254_25_non_const_ax * __cuda_local_var_42254_25_non_const_ax))));
+# 91 "blackScholesAnalyticEngineKernels.cu"
+if (((double)__cuda_local_var_42254_25_non_const_ax) < (2.857142857142850101))
+# 91 "blackScholesAnalyticEngineKernels.cu"
+{
+# 92 "blackScholesAnalyticEngineKernels.cu"
+__cuda_local_var_42254_8_non_const_R = ((float)((-0.009864944034847148227) + (((double)__cuda_local_var_42254_16_non_const_s) * ((-0.6938585727071817644) + (((double)__cuda_local_var_42254_16_non_const_s) * ((-10.55862622532329098) + (((double)__cuda_local_var_42254_16_non_const_s) * ((-62.37533245032600604) + (((double)__cuda_local_var_42254_16_non_const_s) * ((-162.3966694625734704) + (((double)__cuda_local_var_42254_16_non_const_s) * ((-184.605092906711036) + (((double)__cuda_local_var_42254_16_non_const_s) * ((-81.28743550630659342) + (((double)__cuda_local_var_42254_16_non_const_s) * (-9.814329344169145486))))))))))))))));
+# 93 "blackScholesAnalyticEngineKernels.cu"
+__cuda_local_var_42254_10_non_const_S = ((float)((1.0) + (((double)__cuda_local_var_42254_16_non_const_s) * ((19.65127166743925713) + (((double)__cuda_local_var_42254_16_non_const_s) * ((137.6577541435190426) + (((double)__cuda_local_var_42254_16_non_const_s) * ((434.5658774752292288) + (((double)__cuda_local_var_42254_16_non_const_s) * ((645.3872717332678803) + (((double)__cuda_local_var_42254_16_non_const_s) * ((429.0081400275678334) + (((double)__cuda_local_var_42254_16_non_const_s) * ((108.6350055417794351) + (((double)__cuda_local_var_42254_16_non_const_s) * ((6.570249770319281701) + (((double)__cuda_local_var_42254_16_non_const_s) * (-0.06042441521485809874))))))))))))))))));
+# 94 "blackScholesAnalyticEngineKernels.cu"
+}
+# 94 "blackScholesAnalyticEngineKernels.cu"
+else 
+# 94 "blackScholesAnalyticEngineKernels.cu"
+{
+# 95 "blackScholesAnalyticEngineKernels.cu"
+__cuda_local_var_42254_8_non_const_R = ((float)((-0.009864942924700099286) + (((double)__cuda_local_var_42254_16_non_const_s) * ((-0.7992832376805230066) + (((double)__cuda_local_var_42254_16_non_const_s) * ((-17.75795491775475199) + (((double)__cuda_local_var_42254_16_non_const_s) * ((-160.6363848558219161) + (((double)__cuda_local_var_42254_16_non_const_s) * ((-637.5664433683896277) + (((double)__cuda_local_var_42254_16_non_const_s) * ((-1025.09513161107725) + (((double)__cuda_local_var_42254_16_non_const_s) * (-483.519191608651397))))))))))))));
+# 96 "blackScholesAnalyticEngineKernels.cu"
+__cuda_local_var_42254_10_non_const_S = ((float)((1.0) + (((double)__cuda_local_var_42254_16_non_const_s) * ((30.33806074348245829) + (((double)__cuda_local_var_42254_16_non_const_s) * ((325.7925129965739188) + (((double)__cuda_local_var_42254_16_non_const_s) * ((1536.72958608443696) + (((double)__cuda_local_var_42254_16_non_const_s) * ((3199.858219508595539) + (((double)__cuda_local_var_42254_16_non_const_s) * ((2553.050406433164426) + (((double)__cuda_local_var_42254_16_non_const_s) * ((474.5285412069553672) + (((double)__cuda_local_var_42254_16_non_const_s) * (-22.44095244658581834))))))))))))))));
+# 97 "blackScholesAnalyticEngineKernels.cu"
+}
+# 99 "blackScholesAnalyticEngineKernels.cu"
+__cuda_local_var_42254_22_non_const_r = ((float)(exp(((((double)((-__cuda_local_var_42254_25_non_const_ax) * __cuda_local_var_42254_25_non_const_ax)) - (0.5625)) + ((double)(fdividef(((double)__cuda_local_var_42254_8_non_const_R), ((double)__cuda_local_var_42254_10_non_const_S))))))));
+# 100 "blackScholesAnalyticEngineKernels.cu"
+if (x >= (0.0F))
+# 100 "blackScholesAnalyticEngineKernels.cu"
+{
+# 101 "blackScholesAnalyticEngineKernels.cu"
+return (float)((1.0) - ((double)(fdividef(((double)__cuda_local_var_42254_22_non_const_r), ((double)__cuda_local_var_42254_25_non_const_ax)))));
+# 101 "blackScholesAnalyticEngineKernels.cu"
+}
+# 101 "blackScholesAnalyticEngineKernels.cu"
+else 
+# 101 "blackScholesAnalyticEngineKernels.cu"
+{
+# 103 "blackScholesAnalyticEngineKernels.cu"
+return (float)(((double)(fdividef(((double)__cuda_local_var_42254_22_non_const_r), ((double)__cuda_local_var_42254_25_non_const_ax)))) - (1.0));
+# 103 "blackScholesAnalyticEngineKernels.cu"
+}
+# 104 "blackScholesAnalyticEngineKernels.cu"
+}
+# 104 "blackScholesAnalyticEngineKernels.cu"
+}}
+# 109 "blackScholesAnalyticEngineKernels.cu"
+___device__( __no_sc__) float _Z13cumNormDistOp16normalDistStructf(
+# 109 "blackScholesAnalyticEngineKernels.cu"
+normalDistStruct normDist, 
+# 109 "blackScholesAnalyticEngineKernels.cu"
+float z){
+# 109 "blackScholesAnalyticEngineKernels.cu"
+{
+# 110 "blackScholesAnalyticEngineKernels.cu"
+{
+# 112 "blackScholesAnalyticEngineKernels.cu"
+ float __cuda_local_var_42311_12_non_const_result;
+# 111 "blackScholesAnalyticEngineKernels.cu"
+z = ((float)(fdividef(((double)(z - (normDist.average))), ((double)(normDist.sigma)))));
+# 112 "blackScholesAnalyticEngineKernels.cu"
+__cuda_local_var_42311_12_non_const_result = ((float)((0.5) * ((1.0) + ((double)(_Z10errorFunct16normalDistStructf(normDist, ((float)(((double)z) * (0.7071067811865475727)))))))));
+# 113 "blackScholesAnalyticEngineKernels.cu"
+return __cuda_local_var_42311_12_non_const_result;
+# 114 "blackScholesAnalyticEngineKernels.cu"
+}
+# 114 "blackScholesAnalyticEngineKernels.cu"
+}}
+# 118 "blackScholesAnalyticEngineKernels.cu"
+___device__( __no_sc__) float _Z21gaussianFunctNormDist16normalDistStructf(
+# 118 "blackScholesAnalyticEngineKernels.cu"
+normalDistStruct normDist, 
+# 118 "blackScholesAnalyticEngineKernels.cu"
+float x){
+# 118 "blackScholesAnalyticEngineKernels.cu"
+{
+# 119 "blackScholesAnalyticEngineKernels.cu"
+{
+# 120 "blackScholesAnalyticEngineKernels.cu"
+ float __cuda_local_var_42319_8_non_const_deltax;
+# 121 "blackScholesAnalyticEngineKernels.cu"
+ float __cuda_local_var_42320_8_non_const_exponent;
+# 120 "blackScholesAnalyticEngineKernels.cu"
+__cuda_local_var_42319_8_non_const_deltax = (x - (normDist.average));
+# 121 "blackScholesAnalyticEngineKernels.cu"
+__cuda_local_var_42320_8_non_const_exponent = ((float)(fdividef(((double)(-(__cuda_local_var_42319_8_non_const_deltax * __cuda_local_var_42319_8_non_const_deltax))), ((double)(normDist.denominator)))));
+# 124 "blackScholesAnalyticEngineKernels.cu"
+return (float)((((double)__cuda_local_var_42320_8_non_const_exponent) <= (-690.0)) ? (0.0) : ((double)((normDist.normalizationFactor) * ((float)(expf(((double)__cuda_local_var_42320_8_non_const_exponent)))))));
+# 126 "blackScholesAnalyticEngineKernels.cu"
+}
+# 126 "blackScholesAnalyticEngineKernels.cu"
+}}
+# 130 "blackScholesAnalyticEngineKernels.cu"
+___device__( __no_sc__) float _Z16cumNormDistDeriv16normalDistStructf(
+# 130 "blackScholesAnalyticEngineKernels.cu"
+normalDistStruct normDist, 
+# 130 "blackScholesAnalyticEngineKernels.cu"
+float x){
+# 130 "blackScholesAnalyticEngineKernels.cu"
+{
+# 131 "blackScholesAnalyticEngineKernels.cu"
+{
+# 132 "blackScholesAnalyticEngineKernels.cu"
+ float __cuda_local_var_42331_8_non_const_xn;
+# 132 "blackScholesAnalyticEngineKernels.cu"
+__cuda_local_var_42331_8_non_const_xn = ((float)(fdividef(((double)(x - (normDist.average))), ((double)(normDist.sigma)))));
+# 133 "blackScholesAnalyticEngineKernels.cu"
+return (float)(fdividef(((double)(_Z21gaussianFunctNormDist16normalDistStructf(normDist, __cuda_local_var_42331_8_non_const_xn))), ((double)(normDist.sigma))));
+# 134 "blackScholesAnalyticEngineKernels.cu"
+}
+# 134 "blackScholesAnalyticEngineKernels.cu"
+}}
+# 138 "blackScholesAnalyticEngineKernels.cu"
+___device__( __no_sc__) void _Z15initCumNormDistR16normalDistStruct(
+# 138 "blackScholesAnalyticEngineKernels.cu"
+normalDistStruct *currCumNormDist){
+# 138 "blackScholesAnalyticEngineKernels.cu"
+{
+# 139 "blackScholesAnalyticEngineKernels.cu"
+{
+# 140 "blackScholesAnalyticEngineKernels.cu"
+(currCumNormDist->average) = (0.0F);
+# 141 "blackScholesAnalyticEngineKernels.cu"
+(currCumNormDist->sigma) = (1.0F);
+# 142 "blackScholesAnalyticEngineKernels.cu"
+(currCumNormDist->normalizationFactor) = ((float)(fdivide((0.3989422804014327029), ((double)(currCumNormDist->sigma)))));
+# 143 "blackScholesAnalyticEngineKernels.cu"
+(currCumNormDist->derNormalizationFactor) = ((currCumNormDist->sigma) * (currCumNormDist->sigma));
+# 144 "blackScholesAnalyticEngineKernels.cu"
+(currCumNormDist->denominator) = ((float)((2.0) * ((double)(currCumNormDist->derNormalizationFactor))));
+# 145 "blackScholesAnalyticEngineKernels.cu"
+} 
+# 145 "blackScholesAnalyticEngineKernels.cu"
+}}
+# 149 "blackScholesAnalyticEngineKernels.cu"
+___device__( __no_sc__) void _Z17initBlackCalcVarsR15blackCalcStruct12payoffStruct(
+# 149 "blackScholesAnalyticEngineKernels.cu"
+blackCalcStruct *blackCalculator, 
+# 149 "blackScholesAnalyticEngineKernels.cu"
+payoffStruct payoff){
+# 149 "blackScholesAnalyticEngineKernels.cu"
+{
+# 150 "blackScholesAnalyticEngineKernels.cu"
+{
+# 150 "blackScholesAnalyticEngineKernels.cu"
+ float __T21;
+# 155 "blackScholesAnalyticEngineKernels.cu"
+ normalDistStruct __cuda_local_var_42354_19_non_const_currCumNormDist;
+# 151 "blackScholesAnalyticEngineKernels.cu"
+(blackCalculator->d1) = ((float)(((double)(fdividef(((__T21 = ((float)(fdividef(((double)(blackCalculator->forward)), ((double)(blackCalculator->strike)))))) , (logf(((double)__T21)))), ((double)(blackCalculator->stdDev))))) + ((0.5) * ((double)(blackCalculator->stdDev)))));
+# 152 "blackScholesAnalyticEngineKernels.cu"
+(blackCalculator->d2) = ((blackCalculator->d1) - (blackCalculator->stdDev));
+# 156 "blackScholesAnalyticEngineKernels.cu"
+_Z15initCumNormDistR16normalDistStruct((&__cuda_local_var_42354_19_non_const_currCumNormDist));
+# 158 "blackScholesAnalyticEngineKernels.cu"
+(blackCalculator->cum_d1) = (_Z13cumNormDistOp16normalDistStructf(__cuda_local_var_42354_19_non_const_currCumNormDist, (blackCalculator->d1)));
+# 159 "blackScholesAnalyticEngineKernels.cu"
+(blackCalculator->cum_d2) = (_Z13cumNormDistOp16normalDistStructf(__cuda_local_var_42354_19_non_const_currCumNormDist, (blackCalculator->d2)));
+# 160 "blackScholesAnalyticEngineKernels.cu"
+(blackCalculator->n_d1) = (_Z16cumNormDistDeriv16normalDistStructf(__cuda_local_var_42354_19_non_const_currCumNormDist, (blackCalculator->d1)));
+# 161 "blackScholesAnalyticEngineKernels.cu"
+(blackCalculator->n_d2) = (_Z16cumNormDistDeriv16normalDistStructf(__cuda_local_var_42354_19_non_const_currCumNormDist, (blackCalculator->d2)));
+# 163 "blackScholesAnalyticEngineKernels.cu"
+(blackCalculator->x) = (payoff.strike);
+# 164 "blackScholesAnalyticEngineKernels.cu"
+(blackCalculator->DxDstrike) = (1.0F);
+# 168 "blackScholesAnalyticEngineKernels.cu"
+(blackCalculator->DxDs) = (0.0F);
+# 173 "blackScholesAnalyticEngineKernels.cu"
+switch (payoff.type)
+# 174 "blackScholesAnalyticEngineKernels.cu"
+{
+# 175 "blackScholesAnalyticEngineKernels.cu"
+case 0:
+# 176 "blackScholesAnalyticEngineKernels.cu"
+(blackCalculator->alpha) = (blackCalculator->cum_d1);
+# 177 "blackScholesAnalyticEngineKernels.cu"
+(blackCalculator->DalphaDd1) = (blackCalculator->n_d1);
+# 178 "blackScholesAnalyticEngineKernels.cu"
+(blackCalculator->beta) = ((-1.0F) * (blackCalculator->cum_d2));
+# 179 "blackScholesAnalyticEngineKernels.cu"
+(blackCalculator->DbetaDd2) = ((-1.0F) * (blackCalculator->n_d2));
+# 180 "blackScholesAnalyticEngineKernels.cu"
+goto __T22;
+# 181 "blackScholesAnalyticEngineKernels.cu"
+case 1:
+# 182 "blackScholesAnalyticEngineKernels.cu"
+(blackCalculator->alpha) = ((float)((-1.0) + ((double)(blackCalculator->cum_d1))));
+# 183 "blackScholesAnalyticEngineKernels.cu"
+(blackCalculator->DalphaDd1) = (blackCalculator->n_d1);
+# 184 "blackScholesAnalyticEngineKernels.cu"
+(blackCalculator->beta) = ((float)((1.0) - ((double)(blackCalculator->cum_d2))));
+# 185 "blackScholesAnalyticEngineKernels.cu"
+(blackCalculator->DbetaDd2) = ((-1.0F) * (blackCalculator->n_d2));
+# 186 "blackScholesAnalyticEngineKernels.cu"
+goto __T22;
+# 187 "blackScholesAnalyticEngineKernels.cu"
+}
+# 187 "blackScholesAnalyticEngineKernels.cu"
+__T22:;
+# 187 "blackScholesAnalyticEngineKernels.cu"
+;
+# 188 "blackScholesAnalyticEngineKernels.cu"
+} 
+# 188 "blackScholesAnalyticEngineKernels.cu"
+}}
+# 192 "blackScholesAnalyticEngineKernels.cu"
+___device__( __no_sc__) void _Z19initBlackCalculatorR15blackCalcStruct12payoffStructfff(
+# 192 "blackScholesAnalyticEngineKernels.cu"
+blackCalcStruct *blackCalc, 
+# 192 "blackScholesAnalyticEngineKernels.cu"
+payoffStruct payoff, 
+# 192 "blackScholesAnalyticEngineKernels.cu"
+float forwardPrice, 
+# 192 "blackScholesAnalyticEngineKernels.cu"
+float stdDev, 
+# 192 "blackScholesAnalyticEngineKernels.cu"
+float riskFreeDiscount){
+# 192 "blackScholesAnalyticEngineKernels.cu"
+{
+# 193 "blackScholesAnalyticEngineKernels.cu"
+{
+# 194 "blackScholesAnalyticEngineKernels.cu"
+(blackCalc->strike) = (payoff.strike);
+# 195 "blackScholesAnalyticEngineKernels.cu"
+(blackCalc->forward) = forwardPrice;
+# 196 "blackScholesAnalyticEngineKernels.cu"
+(blackCalc->stdDev) = stdDev;
+# 197 "blackScholesAnalyticEngineKernels.cu"
+(blackCalc->discount) = riskFreeDiscount;
+# 198 "blackScholesAnalyticEngineKernels.cu"
+(blackCalc->variance) = (stdDev * stdDev);
+# 200 "blackScholesAnalyticEngineKernels.cu"
+_Z17initBlackCalcVarsR15blackCalcStruct12payoffStruct(blackCalc, payoff);
+# 201 "blackScholesAnalyticEngineKernels.cu"
+} 
+# 201 "blackScholesAnalyticEngineKernels.cu"
+}}
+# 205 "blackScholesAnalyticEngineKernels.cu"
+___device__( __no_sc__) float _Z12getResultVal15blackCalcStruct(
+# 205 "blackScholesAnalyticEngineKernels.cu"
+blackCalcStruct blackCalculator){
+# 205 "blackScholesAnalyticEngineKernels.cu"
+{
+# 206 "blackScholesAnalyticEngineKernels.cu"
+{
+# 207 "blackScholesAnalyticEngineKernels.cu"
+ float __cuda_local_var_42406_8_non_const_result;
+# 207 "blackScholesAnalyticEngineKernels.cu"
+__cuda_local_var_42406_8_non_const_result = ((blackCalculator.discount) * (((blackCalculator.forward) * (blackCalculator.alpha)) + ((blackCalculator.x) * (blackCalculator.beta))));
+# 209 "blackScholesAnalyticEngineKernels.cu"
+return __cuda_local_var_42406_8_non_const_result;
+# 210 "blackScholesAnalyticEngineKernels.cu"
+}
+# 210 "blackScholesAnalyticEngineKernels.cu"
+}}
+# 214 "blackScholesAnalyticEngineKernels.cu"
+__global__ __var_used__ void _Z15getOutValOptionP17optionInputStructPfi(
+# 214 "blackScholesAnalyticEngineKernels.cu"
+optionInputStruct *options, 
+# 214 "blackScholesAnalyticEngineKernels.cu"
+float *outputVals, 
+# 214 "blackScholesAnalyticEngineKernels.cu"
+int numVals){
+# 214 "blackScholesAnalyticEngineKernels.cu"
+{
+# 215 "blackScholesAnalyticEngineKernels.cu"
+{
+# 216 "blackScholesAnalyticEngineKernels.cu"
+ int __cuda_local_var_42415_6_non_const_optionNum;
+# 216 "blackScholesAnalyticEngineKernels.cu"
+__cuda_local_var_42415_6_non_const_optionNum = ((int)(((blockIdx.x) * (blockDim.x)) + (threadIdx.x)));
+# 219 "blackScholesAnalyticEngineKernels.cu"
+if (__cuda_local_var_42415_6_non_const_optionNum < numVals)
+# 220 "blackScholesAnalyticEngineKernels.cu"
+{
+# 221 "blackScholesAnalyticEngineKernels.cu"
+ optionInputStruct __cuda_local_var_42420_21_non_const_threadOption;
+# 223 "blackScholesAnalyticEngineKernels.cu"
+ payoffStruct __cuda_local_var_42422_16_non_const_currPayoff;
+# 227 "blackScholesAnalyticEngineKernels.cu"
+ yieldTermStruct __cuda_local_var_42426_19_non_const_qTS;
+# 231 "blackScholesAnalyticEngineKernels.cu"
+ yieldTermStruct __cuda_local_var_42430_19_non_const_rTS;
+# 235 "blackScholesAnalyticEngineKernels.cu"
+ blackVolStruct __cuda_local_var_42434_18_non_const_volTS;
+# 239 "blackScholesAnalyticEngineKernels.cu"
+ blackScholesMertStruct __cuda_local_var_42438_26_non_const_stochProcess;
+# 245 "blackScholesAnalyticEngineKernels.cu"
+ optionStruct __cuda_local_var_42444_16_non_const_currOption;
+# 250 "blackScholesAnalyticEngineKernels.cu"
+ float __cuda_local_var_42449_9_non_const_variance;
+# 251 "blackScholesAnalyticEngineKernels.cu"
+ float __cuda_local_var_42450_9_non_const_dividendDiscount;
+# 252 "blackScholesAnalyticEngineKernels.cu"
+ float __cuda_local_var_42451_9_non_const_riskFreeDiscount;
+# 253 "blackScholesAnalyticEngineKernels.cu"
+ float __cuda_local_var_42452_9_non_const_spot;
+# 255 "blackScholesAnalyticEngineKernels.cu"
+ float __cuda_local_var_42454_9_non_const_forwardPrice;
+# 258 "blackScholesAnalyticEngineKernels.cu"
+ blackCalcStruct __cuda_local_var_42457_19_non_const_blackCalc;
+# 264 "blackScholesAnalyticEngineKernels.cu"
+ float __cuda_local_var_42463_9_non_const_resultVal;
+# 221 "blackScholesAnalyticEngineKernels.cu"
+__cuda_local_var_42420_21_non_const_threadOption = (options[__cuda_local_var_42415_6_non_const_optionNum]);
+# 224 "blackScholesAnalyticEngineKernels.cu"
+(__cuda_local_var_42422_16_non_const_currPayoff.type) = (__cuda_local_var_42420_21_non_const_threadOption.type);
+# 225 "blackScholesAnalyticEngineKernels.cu"
+(__cuda_local_var_42422_16_non_const_currPayoff.strike) = (__cuda_local_var_42420_21_non_const_threadOption.strike);
+# 228 "blackScholesAnalyticEngineKernels.cu"
+(__cuda_local_var_42426_19_non_const_qTS.timeYearFraction) = (__cuda_local_var_42420_21_non_const_threadOption.t);
+# 229 "blackScholesAnalyticEngineKernels.cu"
+(__cuda_local_var_42426_19_non_const_qTS.forward) = (__cuda_local_var_42420_21_non_const_threadOption.q);
+# 232 "blackScholesAnalyticEngineKernels.cu"
+(__cuda_local_var_42430_19_non_const_rTS.timeYearFraction) = (__cuda_local_var_42420_21_non_const_threadOption.t);
+# 233 "blackScholesAnalyticEngineKernels.cu"
+(__cuda_local_var_42430_19_non_const_rTS.forward) = (__cuda_local_var_42420_21_non_const_threadOption.r);
+# 236 "blackScholesAnalyticEngineKernels.cu"
+(__cuda_local_var_42434_18_non_const_volTS.timeYearFraction) = (__cuda_local_var_42420_21_non_const_threadOption.t);
+# 237 "blackScholesAnalyticEngineKernels.cu"
+(__cuda_local_var_42434_18_non_const_volTS.volatility) = (__cuda_local_var_42420_21_non_const_threadOption.vol);
+# 240 "blackScholesAnalyticEngineKernels.cu"
+(__cuda_local_var_42438_26_non_const_stochProcess.x0) = (__cuda_local_var_42420_21_non_const_threadOption.spot);
+# 241 "blackScholesAnalyticEngineKernels.cu"
+(__cuda_local_var_42438_26_non_const_stochProcess.dividendTS) = __cuda_local_var_42426_19_non_const_qTS;
+# 242 "blackScholesAnalyticEngineKernels.cu"
+(__cuda_local_var_42438_26_non_const_stochProcess.riskFreeTS) = __cuda_local_var_42430_19_non_const_rTS;
+# 243 "blackScholesAnalyticEngineKernels.cu"
+(__cuda_local_var_42438_26_non_const_stochProcess.blackVolTS) = __cuda_local_var_42434_18_non_const_volTS;
+# 246 "blackScholesAnalyticEngineKernels.cu"
+(__cuda_local_var_42444_16_non_const_currOption.payoff) = __cuda_local_var_42422_16_non_const_currPayoff;
+# 247 "blackScholesAnalyticEngineKernels.cu"
+(__cuda_local_var_42444_16_non_const_currOption.yearFractionTime) = (__cuda_local_var_42420_21_non_const_threadOption.t);
+# 248 "blackScholesAnalyticEngineKernels.cu"
+(__cuda_local_var_42444_16_non_const_currOption.pricingEngine) = __cuda_local_var_42438_26_non_const_stochProcess;
+# 250 "blackScholesAnalyticEngineKernels.cu"
+__cuda_local_var_42449_9_non_const_variance = (_Z19getBlackVolBlackVar14blackVolStruct(((__cuda_local_var_42444_16_non_const_currOption.pricingEngine).blackVolTS)));
+# 251 "blackScholesAnalyticEngineKernels.cu"
+__cuda_local_var_42450_9_non_const_dividendDiscount = (_Z26getDiscountOnDividendYieldf15yieldTermStruct((__cuda_local_var_42444_16_non_const_currOption.yearFractionTime), ((__cuda_local_var_42444_16_non_const_currOption.pricingEngine).dividendTS)));
+# 252 "blackScholesAnalyticEngineKernels.cu"
+__cuda_local_var_42451_9_non_const_riskFreeDiscount = (_Z25getDiscountOnRiskFreeRatef15yieldTermStruct((__cuda_local_var_42444_16_non_const_currOption.yearFractionTime), ((__cuda_local_var_42444_16_non_const_currOption.pricingEngine).riskFreeTS)));
+# 253 "blackScholesAnalyticEngineKernels.cu"
+__cuda_local_var_42452_9_non_const_spot = ((__cuda_local_var_42444_16_non_const_currOption.pricingEngine).x0);
+# 255 "blackScholesAnalyticEngineKernels.cu"
+__cuda_local_var_42454_9_non_const_forwardPrice = ((float)(fdividef(((double)(__cuda_local_var_42452_9_non_const_spot * __cuda_local_var_42450_9_non_const_dividendDiscount)), ((double)__cuda_local_var_42451_9_non_const_riskFreeDiscount))));
+# 261 "blackScholesAnalyticEngineKernels.cu"
+_Z19initBlackCalculatorR15blackCalcStruct12payoffStructfff((&__cuda_local_var_42457_19_non_const_blackCalc), (__cuda_local_var_42444_16_non_const_currOption.payoff), __cuda_local_var_42454_9_non_const_forwardPrice, ((float)(sqrtf(((double)__cuda_local_var_42449_9_non_const_variance)))), __cuda_local_var_42451_9_non_const_riskFreeDiscount);
+# 264 "blackScholesAnalyticEngineKernels.cu"
+__cuda_local_var_42463_9_non_const_resultVal = (_Z12getResultVal15blackCalcStruct(__cuda_local_var_42457_19_non_const_blackCalc));
+# 267 "blackScholesAnalyticEngineKernels.cu"
+(outputVals[__cuda_local_var_42415_6_non_const_optionNum]) = __cuda_local_var_42463_9_non_const_resultVal;
+# 268 "blackScholesAnalyticEngineKernels.cu"
+}
+# 269 "blackScholesAnalyticEngineKernels.cu"
+} 
+# 269 "blackScholesAnalyticEngineKernels.cu"
+}}
