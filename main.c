@@ -216,22 +216,5 @@ int main(int argc,char* argv[]){
 	fputs(typedefForVal,f1);
 	fclose(f);
 	fclose(f1);
-
-	f1 = fopen(originKernel,"r");
-	FILE *f2 = fopen(mainName,"w");
-	void *buf;
-	char *attach = "#include \"test.cu\"";
-	fputs(attach,f2);
-	fputs("\n",f2);
-	while(!feof(f1)){
-		fread(&buf,1,1,f1);
-		fwrite(&buf,1,1,f2);
-		if((char)buf == ','|| (char)buf == '('){
-			fputs("\n",f2);
-			fputs("\t",f2);
-		}
-	}
-	fclose(f1);
-	fclose(f2);
 	return 0;
 }

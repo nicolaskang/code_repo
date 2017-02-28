@@ -72,7 +72,7 @@ struct optionInputStruct {
 	float value;
 	float tol;};
 typedef struct optionInputStruct optionInputStruct;
-//!@#val
+//!@$^
 struct vals {
 	float vol;
 	float intDiscountFactor;

@@ -14,6 +14,8 @@
 #define floatTag "float"
 #define TypedefTag "typedef"
 #define structureTag "struct"
+#define local_struct "vals"
+#define local_struct_type "vals*"
 using namespace std;
 void split(const string &s, const char* delim, vector<string> & v){
     // to avoid modifying original string
@@ -69,8 +71,8 @@ public:
 	vector<local_variable> local_variable1;
 	local_variable_struct(){};
 	local_variable_struct(vector<string> &input){
-		name = "vals";
-		type = "vals*";
+		name = local_struct;
+		type = local_struct_type;
 		for (vector<string>::iterator it = input.begin() ; it != input.end();)
 		{
 			string a,b;
@@ -89,6 +91,35 @@ public:
 			output<<*it<<endl;
 		}
 		return output;
+	}
+	bool is_local_var(string name){
+		for (vector<local_variable>::iterator it = (local_variable1).begin() ; it != (local_variable1).end(); it++)
+		{
+			std::vector<string> tmp_name;
+			split(name,"-.",tmp_name);
+			string vari_name = tmp_name.front();
+			if(vari_name.compare((*it).para.name)==0){
+				return true;
+			}
+		}
+		return false;
+	}
+	string CreateStore(string name){
+		if(!is_local_var(name))
+			return "null";
+		else{
+			string return_tmp = this->name+"."+name+"="+name+";";
+			return return_tmp;
+		}
+	}
+	string CreateRestore(string name){
+		if(!is_local_var(name))
+			return "null";
+		else{
+			string return_tmp = name+"="+this->name+"."+name+";";
+			return return_tmp;
+		}
+
 	}
 };
 class funtion_title{
@@ -152,45 +183,188 @@ public:
 		parameters.push_back(*tmp);
 	}
 };
-int main(int argc,char* argv[]){
-	// string input_name = argv[1];
-	string compiledFile = "test.cu";
-	ifstream compiledFile_in (compiledFile.c_str(), ifstream::in);
-	string LineFromFile;
-	
-	vector<string> val_paras;
-	int flag =-1;
-	while(getline(compiledFile_in,LineFromFile)){
-		if(LineFromFile.compare("//!@#val")==0){
-			flag++;
-			continue;
-		}
-		if(LineFromFile.compare("};")==0){
-			flag=-1;
-		}
-		if(flag == 0){
-			flag++;
-			continue;
-		}
-		if(flag==1){
-			split(LineFromFile," ;\t",val_paras);
+string gotoLine(ifstream &file, int numOfLine){
+	int pos = file.tellg();
+	file.seekg(0,ios::beg);
+	string tmp;
+	int lineRN=0;
+	while(getline(file,tmp)){
+		lineRN++;
+		if(lineRN==numOfLine){
+			break;
 		}
 	}
+	file.seekg(pos,ios::beg);
+	return tmp;
+}
+int main(int argc,char* argv[]){
+	if(argc == 1){
+		cerr<<"please input your gpu file"<<endl;
+	}
+	string input_name = argv[1];
+	//cout<<input_name<<endl;
+	string compiledFile = "test.cu";
+	ifstream input_in (input_name.c_str(),ifstream::in);
+	ofstream header_out (compiledFile.c_str(),ofstream::out);
+	string LineFromFile;
+	while(getline(input_in,LineFromFile)){
+		//cout<<"ok"<<endl;
+		if(LineFromFile[0] == '#'){
+			continue;
+		}
+		else{
+			//cout<<"ok1"<<endl;
+			std::vector<string> tmp;
+			tmp.clear();
+			split(LineFromFile," ",tmp);
+			bool structureFlag = false;
+			// for (vector<string>::iterator it = (tmp).begin() ; it != (tmp).end(); it++)
+			// {
+			// 	cout<<*it<<endl;
+			// }
+			string last_string = tmp[tmp.size()-1];
+			//cout<<last_string<<endl;
+			if(tmp.front() == structureTag || tmp.front() == TypedefTag){
+				header_out<<LineFromFile<<endl;
+				// string last_string = tmp[tmp.size()];
+				// cout<<last_string<<endl;
+				if(last_string[last_string.size()-1] == ';'){
+					continue;
+				}
+				else if(last_string[last_string.size()-1] == '{'){
+					//cout<<"ok2"<<endl;
+					structureFlag = true;
+					while(structureFlag == true){
+						getline(input_in,LineFromFile);
+						if(LineFromFile[0] == '#'){
+							continue;
+						}	
+						header_out<<'\t'<<LineFromFile<<endl;
+						int pos = LineFromFile.find("};");
+						if(pos != string::npos){
+							structureFlag = false;
+							break;
+						}
+					}
+				}
+			}
+		}
+	}
+	input_in.close();
+	header_out.close();
+	//finish all struct writing.
+
+	input_in.open(input_name.c_str(),ifstream::in);
+	header_out.open(compiledFile.c_str(),ofstream::app);
+	LineFromFile.clear();
+	header_out<<"//!@$^"<<endl;
+	header_out<<"struct vals {"<<endl;
+	vector<string> val_paras;
+	while(getline(input_in,LineFromFile)){
+		//cout<<LineFromFile<<endl;
+		if(LineFromFile[0] == '#'){
+			continue;
+		}
+		else{
+			std::vector<string> tmp;
+			tmp.clear();
+			split(LineFromFile," ",tmp);
+			if(tmp.size()<2 || tmp[0].compare("return")==0 || tmp[0].compare("if")==0){
+				continue;
+			}
+			else{
+				string str_tmp = tmp[1];
+				int pos = str_tmp.find(tagForLocalVar);
+				int pos1 = str_tmp.find('(');
+				std::vector<string> split_underline;
+				split(str_tmp,"_",split_underline);
+				string var_name = split_underline[split_underline.size()-1];
+				var_name.pop_back();
+				if(pos != string::npos&&pos1==string::npos){
+					header_out<<'\t'<<tmp[0]<<" "<<var_name<<';'<<endl;
+					val_paras.push_back(tmp[0]);
+					val_paras.push_back(var_name);
+				}
+			}
+		}
+	}
+	header_out<<"};"<<endl;
+	header_out<<"typedef struct "<<local_struct<<" "<<local_struct<<";"<<endl;
 	local_variable_struct localVar(val_paras);
-	cout<<localVar;
+	//cout<<localVar<<endl;
+	input_in.close();
+	header_out.close();
+	//char d = getchar();
+
+	//vector<string> val_paras;
+	
+	//local_variable_struct stores all variables we should look for.
+	// when these variables are being updated, these lcao
+
+	//
+	//first step: find equal mark in gpu file
+	// the reason why i DON NOT find it in kernel file is because
+	// we do not know whether it is an local variable operation.
+	ifstream gpuFile_in (input_name.c_str(), ifstream::in);
+	LineFromFile.clear();
+	// LineFromFile =gotoLine(gpuFile_in,10,lineCounter);
+	std::vector<int> PositionToInsertStore;
+	std::vector<string> ContentForStore;
+	int lineNum=0;
+	while(getline(gpuFile_in,LineFromFile)){
+		lineNum++;
+		vector<string> tmp;
+		split(LineFromFile," ",tmp);
+		// is it with local variable tag or is it contained in our local variable struct?
+		std::vector<string> tmp_name;
+		split(tmp.front(),"()",tmp_name);
+		string vari_name = tmp_name.front();
+		if(vari_name.find(tagForLocalVar)==0|| localVar.is_local_var(vari_name) == true){
+			//cout<<vari_name<<endl;
+			//cout<<"this is "<<lineNum<<endl;
+			string numSignLine = gotoLine(gpuFile_in,lineNum-1);
+			std::vector<string> tmpForSplit;
+			split(numSignLine," ",tmpForSplit);
+			tmpForSplit.erase(tmpForSplit.begin());
+			//cout<<tmpForSplit.front()<<endl;
+			//string WaitForConvert = tmpForSplit.front();
+			std::vector<string> split_underline;
+			split(vari_name,"_",split_underline);
+			string var_name = split_underline[split_underline.size()-1];
+
+			int numConverted = stoi(tmpForSplit.front());
+			string insertForstore = localVar.CreateStore(var_name);
+			cout<<"variable "<<var_name<<endl;
+			cout<<"number to insert "<<numConverted<<endl;
+			cout<<"what to insert "<<insertForstore<<endl;
+			PositionToInsertStore.push_back(numConverted);
+			ContentForStore.push_back(insertForstore);
+			//char c = getchar();
+		}
+		else
+			continue;
+	}
+
+
 
 	char c = getchar();
 	// string headerName = "test.cu";
-	string originKernel = "kernel.cu";
+	string originKernel = argv[2];
 	string mainName = "test1.cu";
-	// ifstream kernel_gpufile_in (input_name.c_str(), ifstream::in);
-	// ofstream mainName_out (headerName.c_str(), ofstream::out);
+	int lineCounter=0;
 	ifstream kernel_in (originKernel.c_str(), ifstream::in);
 	ofstream mainName_out (mainName.c_str(), ofstream::out);
-	string attach = "#include \"test.cu\"";
+	string attach = "#include \"test.cu\"";lineCounter++;
 	mainName_out<<attach.c_str()<<endl;
 	vector<funtion_title> function_group;
+	int LineCounterForinsertion = 0;
 	while(getline(kernel_in,LineFromFile)){
+		LineCounterForinsertion++;
+		if(LineCounterForinsertion-1 == PositionToInsertStore.front()){
+			mainName_out<<'\t'<<ContentForStore.front()<<endl;
+			PositionToInsertStore.erase(PositionToInsertStore.begin());
+			ContentForStore.erase(ContentForStore.begin());
+		}
 		size_t posGlobal = LineFromFile.find(tagForGlobal);
 		size_t posDevice = LineFromFile.find(tagForDevice);
 		if (posGlobal!=string::npos && posGlobal==0){
@@ -198,7 +372,7 @@ int main(int argc,char* argv[]){
 			split(LineFromFile, " (,)",store_info);
 			funtion_title *tmp = new funtion_title(store_info);
 			function_group.push_back(*tmp);
-			(*tmp).add_parameter("vals*","vals");
+			(*tmp).add_parameter(local_struct_type,local_struct);
 			LineFromFile.clear();
 			LineFromFile = (*tmp).function_form();
 		}
@@ -207,7 +381,7 @@ int main(int argc,char* argv[]){
 			split(LineFromFile, " (,)",store_info);
 			funtion_title *tmp = new funtion_title(store_info);
 			function_group.push_back(*tmp);
-			(*tmp).add_parameter("vals*","vals");
+			(*tmp).add_parameter(local_struct_type,local_struct);
 			LineFromFile.clear();
 			LineFromFile = (*tmp).function_form();
 		}
@@ -232,7 +406,7 @@ int main(int argc,char* argv[]){
 					string rearPart= LineFromFile.substr(pos_closeParenthesis+1);
 					pos_useFunc = pos_useFunc + functionCall.size();
 					split(LineFromFile.substr(pos_useFunc+1,pos_closeParenthesis-pos_useFunc-1),",",parameters);
-					parameters.push_back("vals");
+					parameters.push_back(local_struct);
 					// for (vector<string>::iterator it = (parameters).begin() ; it != (parameters).end(); it++)
 					// {
 					// 	cout<<*it<<endl;
@@ -249,7 +423,6 @@ int main(int argc,char* argv[]){
 		}
 		mainName_out<<LineFromFile<<endl; 
 	}
-
 	// for (vector<funtion_title>::iterator it = function_group.begin();it != function_group.end(); ++it)
 	// {
 	// 	(*it).add_parameter("Vals*","vals");
