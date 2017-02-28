@@ -16,6 +16,10 @@
 #define structureTag "struct"
 #define local_struct "vals"
 #define local_struct_type "vals*"
+
+const std::string structFileName  = "test.cu";
+const std::string kernelFileName ="test1.cu";
+const std::string mainFileName ="test2.cu";
 using namespace std;
 void split(const string &s, const char* delim, vector<string> & v){
     // to avoid modifying original string
@@ -70,6 +74,7 @@ public:
 	string type;
 	vector<local_variable> local_variable1;
 	local_variable_struct(){};
+
 	local_variable_struct(vector<string> &input){
 		name = local_struct;
 		type = local_struct_type;
@@ -105,18 +110,20 @@ public:
 		return false;
 	}
 	string CreateStore(string name){
+		string replacement =  "!@#$^&*(";
 		if(!is_local_var(name))
 			return "null";
 		else{
-			string return_tmp = this->name+"."+name+"="+name+";";
+			string return_tmp = this->name+replacement+"."+name+"="+name+";";
 			return return_tmp;
 		}
 	}
 	string CreateRestore(string name){
+		string replacement =  "!@#$^&*(";
 		if(!is_local_var(name))
 			return "null";
 		else{
-			string return_tmp = name+"="+this->name+"."+name+";";
+			string return_tmp = name+"="+this->name+replacement+"."+name+";";
 			return return_tmp;
 		}
 
@@ -128,7 +135,7 @@ public:
 	string return_value;
 	string func_name;
 	vector<parameter_func> parameters;
-	vector<parameter_func> variable;
+	//vector<parameter_func> variable;
 	funtion_title(){};
 	funtion_title(vector<string> &input){
 		scale = input.front();
@@ -203,7 +210,7 @@ int main(int argc,char* argv[]){
 	}
 	string input_name = argv[1];
 	//cout<<input_name<<endl;
-	string compiledFile = "test.cu";
+	string compiledFile = structFileName;
 	ifstream input_in (input_name.c_str(),ifstream::in);
 	ofstream header_out (compiledFile.c_str(),ofstream::out);
 	string LineFromFile;
@@ -346,44 +353,34 @@ int main(int argc,char* argv[]){
 	}
 
 
-
 	//char c = getchar();
 	// string headerName = "test.cu";
 	string originKernel = argv[2];
-	string mainName = "test1.cu";
+	string mainName = kernelFileName;
 	int lineCounter=0;
 	ifstream kernel_in (originKernel.c_str(), ifstream::in);
 	ofstream mainName_out (mainName.c_str(), ofstream::out);
-	string attach = "#include \"test.cu\"";lineCounter++;
+	string attach = "#include \"" + structFileName +'\"';lineCounter++;
 	mainName_out<<attach.c_str()<<endl;
 	vector<funtion_title> function_group;
 	int LineCounterForinsertion = 0;
 	bool flagForWriting = false;
+	bool flagForPostfuncWriting = false;
+	string insertForPostfuncWriting;
 	while(getline(kernel_in,LineFromFile)){
+		// cout<<LineFromFile<<endl;
 		if(flagForWriting){
 			mainName_out<<'\t'<<ContentForStore.front()<<endl;
 			PositionToInsertStore.erase(PositionToInsertStore.begin());
 			ContentForStore.erase(ContentForStore.begin());
 			flagForWriting = false;
 		}
-		LineCounterForinsertion++;
-		if(LineCounterForinsertion == PositionToInsertStore.front()){
-			cout<<"change before "<<PositionToInsertStore.front()<<endl;
-			if(LineFromFile[LineFromFile.size()-1]==';' || LineFromFile == ""){
-				cout<<"do not need any modification"<<endl;
-				cout<<"the line is "<<LineFromFile<<endl;
-				cout<<"the last is "<<LineFromFile[LineFromFile.size()-1]<<endl;
-				flagForWriting = true;
-			}
-			else{
-				PositionToInsertStore[0]++;
-				cout<<"change after "<<PositionToInsertStore.front()<<endl;
-				cout<<"the line is "<<LineFromFile<<endl;
-				cout<<"the last is "<<LineFromFile[LineFromFile.size()-1]<<endl;
-			}
-			char c =getchar();
+		if(flagForPostfuncWriting){
+			mainName_out<<'\t'<<insertForPostfuncWriting<<endl;
+			flagForPostfuncWriting = false;
 		}
-		
+		LineCounterForinsertion++;
+
 		size_t posGlobal = LineFromFile.find(tagForGlobal);
 		size_t posDevice = LineFromFile.find(tagForDevice);
 		if (posGlobal!=string::npos && posGlobal==0){
@@ -425,30 +422,169 @@ int main(int argc,char* argv[]){
 					string rearPart= LineFromFile.substr(pos_closeParenthesis+1);
 					pos_useFunc = pos_useFunc + functionCall.size();
 					split(LineFromFile.substr(pos_useFunc+1,pos_closeParenthesis-pos_useFunc-1),",",parameters);
+					// if these parameters is called by reference or pointer, it may be likely the parameters would be changed inside the function.
+					// so we should store these variables after function finishes.
+					//	first, we should know whether the variable is called by reference or pointer, 
+					// the best way is to check the type.
+					// if the type contains of asterisk or AND sign, then the variable is called by r or p.
+					for(std::vector<string>::iterator it1 = parameters.begin();it1!=parameters.end();it1++){
+						string var_name = *it1;
+						vector<parameter_func> tmp =(*it).parameters;
+						parameter_func tmp_forfindAstnAnd = tmp.front();
+						if(!((tmp_forfindAstnAnd.type).find('*')==string::npos && (tmp_forfindAstnAnd.type).find('&')==string::npos) && localVar.is_local_var(var_name)==true){
+							insertForPostfuncWriting = localVar.CreateStore(var_name);
+							flagForPostfuncWriting = true;
+						}
+					}
 					parameters.push_back(local_struct);
-					// for (vector<string>::iterator it = (parameters).begin() ; it != (parameters).end(); it++)
-					// {
-					// 	cout<<*it<<endl;
-					// }
 					LineFromFile.clear();
 					LineFromFile = formPart + (*it).use_form(parameters) + rearPart;
-					// cout<<formPart<<(*it).use_form(parameters)<<rearPart<<endl;
-					//cin.get();
-					//cout<<*it<<endl;
 				}
 				else
 					continue;
 			}
 		}
+		if(LineCounterForinsertion == PositionToInsertStore.front()){
+			//cout<<"change before "<<PositionToInsertStore.front()<<endl;
+			if(LineFromFile[LineFromFile.size()-1]==';' || LineFromFile == ""){
+				//cout<<"do not need any modification"<<endl;
+				//cout<<"the line is "<<LineFromFile<<endl;
+				//cout<<"the last is "<<LineFromFile[LineFromFile.size()-1]<<endl;
+				flagForWriting = true;
+			}
+			else{
+				PositionToInsertStore[0]++;
+				//cout<<"change after "<<PositionToInsertStore.front()<<endl;
+				//cout<<"the line is "<<LineFromFile<<endl;
+				//cout<<"the last is "<<LineFromFile[LineFromFile.size()-1]<<endl;
+			}
+			//char c =getchar();
+		}
 		mainName_out<<LineFromFile<<endl;
 		LineFromFile.clear();
-		
 	}
-	// for (vector<funtion_title>::iterator it = function_group.begin();it != function_group.end(); ++it)
-	// {
-	// 	(*it).add_parameter("Vals*","vals");
-	// 	cout<<(*it).function_form()<<endl;
-	// }
+	//char a= getchar();
 	kernel_in.close();
 	mainName_out.close();
+	PositionToInsertStore.clear();
+	ContentForStore.clear();
+	
+
+	string mainFileWhichCallKernel = argv[3];
+	string NewMainFile = mainFileName;
+	ifstream mainFileCallKernel_in (mainFileWhichCallKernel.c_str(),ios::in);
+	
+	LineFromFile.clear();
+	lineCounter = 0;
+	std::vector<int> numLineTocreateVals;
+	std::vector<string> InstructionCreateVals;
+	std::vector<string> callkernel;
+	int numOfValtoDefine = 0;
+	while(getline(mainFileCallKernel_in,LineFromFile)){
+		//cout<<LineFromFile<<endl;
+		lineCounter++;
+		if(LineFromFile.find("<<<")!=string::npos && LineFromFile.find(">>>")!=string::npos){
+			std::vector<string> tmpForSplit;
+			split(LineFromFile," \t\n<>,();",tmpForSplit);
+			// for (vector<string>::iterator it = (tmpForSplit).begin(); it != (tmpForSplit).end(); it++)
+			// {
+			// 	cout<<*it<<endl;
+			// }
+			// char c = getchar();
+			string name = tmpForSplit.front();
+			tmpForSplit.erase(tmpForSplit.begin());
+			string grid = tmpForSplit.front();
+			tmpForSplit.erase(tmpForSplit.begin());
+			string thread = tmpForSplit.front();
+			tmpForSplit.erase(tmpForSplit.begin());
+			//create vals
+			std::string waittoPush;
+			string vals_name_tocreate = local_struct + std::to_string(numOfValtoDefine);
+			numLineTocreateVals.push_back(lineCounter - 1);
+			waittoPush = std::string(local_struct_type) + " " + vals_name_tocreate+";";
+			InstructionCreateVals.push_back(waittoPush);
+			waittoPush.clear();
+			numOfValtoDefine++;
+			//malloc memory
+			numLineTocreateVals.push_back(lineCounter - 1);
+			waittoPush = "cudaMalloc((void**)&"+vals_name_tocreate+
+				", "+grid+".x"+"*"+grid+".y"+"*"+grid+".z"+"*"+thread+".x"+"*"+thread+".y"+"*"+thread+".z"+"*"+"sizeof("+
+				local_struct+"));";
+			InstructionCreateVals.push_back(waittoPush);
+			waittoPush.clear();
+
+			//numLineTocreateVals.push_back(lineCounter);
+			string callkernel_wait_push = name + " <<<"+grid+" ,"+thread+" >>>"+" (";
+			for(vector<string>::iterator it = tmpForSplit.begin();it!=tmpForSplit.end();it++){
+				callkernel_wait_push = callkernel_wait_push + *it + ',';
+			}
+			//callkernel.pop_back();
+			callkernel_wait_push = callkernel_wait_push +vals_name_tocreate;
+			callkernel_wait_push = callkernel_wait_push+");";
+			callkernel.push_back(callkernel_wait_push);
+			//InstructionCreateVals.push_back(callkernel);
+
+			numLineTocreateVals.push_back(lineCounter+1);
+			waittoPush = "cudaFree("+vals_name_tocreate+");";
+			InstructionCreateVals.push_back(waittoPush);
+			waittoPush.clear();
+		}
+		//NewMainFile_out<<LineFromFile<<endl;
+		//gotoLine(mainFileCallKernel_in,lineCounter);
+	}
+	mainFileCallKernel_in.close();
+	//NewMainFile_out.close();
+	// for(vector<string>::iterator it = InstructionCreateVals.begin();it!=InstructionCreateVals.end();it++){
+	// 	cout<<*it<<endl;
+	// }
+	// for(vector<int>::iterator it = numLineTocreateVals.begin();it!=numLineTocreateVals.end();it++){
+	// 	cout<<*it<<endl;
+	// }
+
+	//char dad = getchar();
+	mainFileCallKernel_in.open(mainFileWhichCallKernel.c_str(),ios::in);
+	ofstream NewMainFile_out (NewMainFile.c_str(),ios::out);
+	// NewMainFile_out = open(NewMainFile.c_str(),ios::out);
+	NewMainFile_out<<"#include \""<<structFileName<<"\";"<<endl;
+	flagForWriting = false;
+	lineCounter=0;
+	LineFromFile.clear();
+	while(getline(mainFileCallKernel_in,LineFromFile)){
+		lineCounter++;	
+
+		while(lineCounter == numLineTocreateVals.front() && numLineTocreateVals.size()!=0){
+			//cout<<"change before "<<PositionToInsertStore.front()<<endl;
+			if(LineFromFile[LineFromFile.size()-1]==';' || LineFromFile == ""){
+				//cout<<"do not need any modification"<<endl;
+				//cout<<"the line is "<<LineFromFile<<endl;
+				//cout<<"the last is "<<LineFromFile[LineFromFile.size()-1]<<endl;
+				flagForWriting = true;
+			}
+			else{
+				for(int i=0;i<numLineTocreateVals.size();i++)
+					numLineTocreateVals[i]++;
+				//cout<<"change after "<<PositionToInsertStore.front()<<endl;
+				//cout<<"the line is "<<LineFromFile<<endl;
+				//cout<<"the last is "<<LineFromFile[LineFromFile.size()-1]<<endl;
+			}
+			if(flagForWriting == true){
+				NewMainFile_out<<'\t'<<InstructionCreateVals.front()<<endl;
+				numLineTocreateVals.erase(numLineTocreateVals.begin());
+				InstructionCreateVals.erase(InstructionCreateVals.begin());
+				flagForWriting = false;
+			}
+			//char c =getchar();
+		}
+		if(LineFromFile.find("<<<")!=string::npos){
+			NewMainFile_out<<'\t'<<callkernel.front()<<endl;
+			callkernel.erase(callkernel.begin());
+		}else{
+			NewMainFile_out<<LineFromFile<<endl;
+		}
+	}
+	InstructionCreateVals.clear();
+	numLineTocreateVals.clear();
+	NewMainFile_out.close();
+	mainFileCallKernel_in.close();
+	return 1;
 }
