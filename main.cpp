@@ -3,6 +3,7 @@
 #include <fstream>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <vector>
 #define local "__local__"
 #define tagForLocalVar "__cuda_local_var_"

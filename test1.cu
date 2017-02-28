@@ -31,6 +31,7 @@ __device__ float interestRateDiscountFactor(float t, yieldTermStruct currYieldTe
 __device__ float getBlackVolBlackVar(blackVolStruct volTS, vals* vals )
 {
 	float vol = volTS.volatility;
+	//Honestly there should be a update operation for vals.
 	return vol*vol*volTS.timeYearFraction;
 }
 
@@ -39,6 +40,7 @@ __device__ float getBlackVolBlackVar(blackVolStruct volTS, vals* vals )
 __device__ float getDiscountOnDividendYield(float yearFraction, yieldTermStruct dividendYieldTermStruct, vals* vals )
 {
 	float intDiscountFactor = interestRateDiscountFactor(yearFraction, dividendYieldTermStruct,vals);
+	//And there should be a operation for vals.
 	return intDiscountFactor;
 }
 
@@ -54,7 +56,8 @@ __device__ float getDiscountOnRiskFreeRate(float yearFraction, yieldTermStruct r
 __device__ float errorFunct(normalDistStruct normDist, float x, vals* vals )
 {
 	float R,S,P,Q,s,y,z,r, ax;
-
+	//how to extract variables when they are delimited by comma.
+	
     ax = fabs(x);
 
     if(ax < 0.84375) 
