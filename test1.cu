@@ -31,11 +31,7 @@ __device__ float interestRateDiscountFactor(float t, yieldTermStruct currYieldTe
 __device__ float getBlackVolBlackVar(blackVolStruct volTS, vals* vals )
 {
 	float vol = volTS.volatility;
-<<<<<<< HEAD
-	//Honestly there should be a update operation for vals.
-=======
 	vals.vol=vol;
->>>>>>> 47d05ae0cf892d0881a2ef8487302c55a15390cd
 	return vol*vol*volTS.timeYearFraction;
 }
 
@@ -44,11 +40,7 @@ __device__ float getBlackVolBlackVar(blackVolStruct volTS, vals* vals )
 __device__ float getDiscountOnDividendYield(float yearFraction, yieldTermStruct dividendYieldTermStruct, vals* vals )
 {
 	float intDiscountFactor = interestRateDiscountFactor(yearFraction, dividendYieldTermStruct,vals);
-<<<<<<< HEAD
-	//And there should be a operation for vals.
-=======
 	vals.intDiscountFactor=intDiscountFactor;
->>>>>>> 47d05ae0cf892d0881a2ef8487302c55a15390cd
 	return intDiscountFactor;
 }
 
@@ -64,8 +56,7 @@ __device__ float getDiscountOnRiskFreeRate(float yearFraction, yieldTermStruct r
 __device__ float errorFunct(normalDistStruct normDist, float x, vals* vals )
 {
 	float R,S,P,Q,s,y,z,r, ax;
-	//how to extract variables when they are delimited by comma.
-	
+
     ax = fabs(x);
 	vals.ax=ax;
 
@@ -246,8 +237,8 @@ __device__ void initBlackCalculator(blackCalcStruct& blackCalc, payoffStruct pay
 __device__ float getResultVal(blackCalcStruct blackCalculator, vals* vals )
 {
 	float result = blackCalculator.discount * (blackCalculator.forward * 
-	vals.result=result;
 					blackCalculator.alpha + blackCalculator.x * blackCalculator.beta);
+	vals.result=result;
 	return result;
 }
 
@@ -304,8 +295,8 @@ __global__ void getOutValOption(optionInputStruct* options, float* outputVals, i
 		currOption.yearFractionTime = threadOption.t;
 	vals.currOption.yearFractionTime=currOption.yearFractionTime;
 		currOption.pricingEngine = stochProcess; 
-	vals.currOption.pricingEngine=currOption.pricingEngine;
 
+	vals.currOption.pricingEngine=currOption.pricingEngine;
 		float variance = getBlackVolBlackVar(currOption.pricingEngine.blackVolTS,vals);
 	vals.variance=variance;
 		float dividendDiscount = getDiscountOnDividendYield(currOption.yearFractionTime, currOption.pricingEngine.dividendTS,vals);
@@ -313,8 +304,8 @@ __global__ void getOutValOption(optionInputStruct* options, float* outputVals, i
 		float riskFreeDiscount = getDiscountOnRiskFreeRate(currOption.yearFractionTime, currOption.pricingEngine.riskFreeTS,vals);
 	vals.riskFreeDiscount=riskFreeDiscount;
 		float spot = currOption.pricingEngine.x0; 
-	vals.spot=spot;
 
+	vals.spot=spot;
 		float forwardPrice = spot * dividendDiscount / riskFreeDiscount;
 	vals.forwardPrice=forwardPrice;
 

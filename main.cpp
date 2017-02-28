@@ -334,9 +334,9 @@ int main(int argc,char* argv[]){
 
 			int numConverted = stoi(tmpForSplit.front());
 			string insertForstore = localVar.CreateStore(var_name);
-			cout<<"variable "<<var_name<<endl;
-			cout<<"number to insert "<<numConverted<<endl;
-			cout<<"what to insert "<<insertForstore<<endl;
+			//cout<<"variable "<<var_name<<endl;
+			//cout<<"number to insert "<<numConverted<<endl;
+			//cout<<"what to insert "<<insertForstore<<endl;
 			PositionToInsertStore.push_back(numConverted);
 			ContentForStore.push_back(insertForstore);
 			//char c = getchar();
@@ -347,7 +347,7 @@ int main(int argc,char* argv[]){
 
 
 
-	char c = getchar();
+	//char c = getchar();
 	// string headerName = "test.cu";
 	string originKernel = argv[2];
 	string mainName = "test1.cu";
@@ -358,13 +358,32 @@ int main(int argc,char* argv[]){
 	mainName_out<<attach.c_str()<<endl;
 	vector<funtion_title> function_group;
 	int LineCounterForinsertion = 0;
+	bool flagForWriting = false;
 	while(getline(kernel_in,LineFromFile)){
-		LineCounterForinsertion++;
-		if(LineCounterForinsertion-1 == PositionToInsertStore.front()){
+		if(flagForWriting){
 			mainName_out<<'\t'<<ContentForStore.front()<<endl;
 			PositionToInsertStore.erase(PositionToInsertStore.begin());
 			ContentForStore.erase(ContentForStore.begin());
+			flagForWriting = false;
 		}
+		LineCounterForinsertion++;
+		if(LineCounterForinsertion == PositionToInsertStore.front()){
+			cout<<"change before "<<PositionToInsertStore.front()<<endl;
+			if(LineFromFile[LineFromFile.size()-1]==';' || LineFromFile == ""){
+				cout<<"do not need any modification"<<endl;
+				cout<<"the line is "<<LineFromFile<<endl;
+				cout<<"the last is "<<LineFromFile[LineFromFile.size()-1]<<endl;
+				flagForWriting = true;
+			}
+			else{
+				PositionToInsertStore[0]++;
+				cout<<"change after "<<PositionToInsertStore.front()<<endl;
+				cout<<"the line is "<<LineFromFile<<endl;
+				cout<<"the last is "<<LineFromFile[LineFromFile.size()-1]<<endl;
+			}
+			char c =getchar();
+		}
+		
 		size_t posGlobal = LineFromFile.find(tagForGlobal);
 		size_t posDevice = LineFromFile.find(tagForDevice);
 		if (posGlobal!=string::npos && posGlobal==0){
@@ -421,7 +440,9 @@ int main(int argc,char* argv[]){
 					continue;
 			}
 		}
-		mainName_out<<LineFromFile<<endl; 
+		mainName_out<<LineFromFile<<endl;
+		LineFromFile.clear();
+		
 	}
 	// for (vector<funtion_title>::iterator it = function_group.begin();it != function_group.end(); ++it)
 	// {
