@@ -205,6 +205,9 @@ string gotoLine(ifstream &file, int numOfLine){
 	return tmp;
 }
 int main(int argc,char* argv[]){
+	cout<<"please enter gpu file name"<<endl;
+	cout<<"please enter kernel file name second"<<endl;
+	cout<<"do not forget main file in the end"<<endl;
 	if(argc == 1){
 		cerr<<"please input your gpu file"<<endl;
 	}
@@ -586,5 +589,8 @@ int main(int argc,char* argv[]){
 	numLineTocreateVals.clear();
 	NewMainFile_out.close();
 	mainFileCallKernel_in.close();
+	cout<<"struct file is "<<structFileName<<endl;
+	cout<<"kernel file is "<<kernelFileName<<endl;
+	cout<<"main file which uses the kernel is "<<mainFileName<<endl;
 	return 1;
 }
